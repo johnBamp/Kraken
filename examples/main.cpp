@@ -2,7 +2,6 @@
 #include <Kraken>
 
 int main() {
-
     kr::Matrix<float> a(3, 3);
 
     a = {1, 2, 3, 
@@ -20,8 +19,7 @@ int main() {
 
     std::cout << lu.P << std::endl << std::endl;
         
-    std::cout << (lu.P * lu.L * lu.U) << std::endl << std::endl;
-
+    std::cout << (lu.P.transpose() * lu.L * lu.U) << std::endl << std::endl;
 
     return 0;
 }

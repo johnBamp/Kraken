@@ -22,10 +22,10 @@ struct LU {
 };
 
 template <typename T>
-Matrix<T> identity(size_t rows_, size_t cols_){
-    Matrix<T> id(rows_, cols_);
+Matrix<T> identity(size_t size){
+    Matrix<T> id(size, size);
 
-    for(size_t i = 0; i < cols_; ++i){
+    for(size_t i = 0; i < size; ++i){
         id(i, i) = 1;
     }
 
@@ -49,11 +49,11 @@ public:
 
     Matrix operator*(const Matrix& other);
     Matrix operator+(const Matrix& other);
-    Matrix operator+=(const Matrix& other);
+    Matrix& operator+=(const Matrix& other);
     Matrix operator-(const Matrix& other);
-    Matrix operator-=(const Matrix& other);
+    Matrix& operator-=(const Matrix& other);
     Matrix operator%(const Matrix& other);
-    Matrix operator%=(const Matrix& other);
+    Matrix& operator%=(const Matrix& other);
 
     friend std::ostream& operator<<(std::ostream& os, const Matrix& a) {
         for(size_t i = 0; i < a.data.size(); ++i){
@@ -68,8 +68,8 @@ public:
     void swapRow(size_t r1, size_t r2);
     void swapCol(size_t c1, size_t c2);
     Matrix<T>& transpose();
-    T determinant();
-    LU<T> lu();
+    T determinant() const;
+    LU<T> lu() const;
 };
 
 template <typename T>
@@ -121,7 +121,7 @@ Matrix<T> Matrix<T>::operator*(const Matrix& other){
 template <typename T>
 Matrix<T> Matrix<T>::operator+(const Matrix& other){
     if(rows_ != other.rows_ || cols_ != other.cols_){
-        throw std::runtime_error("Size does not match"); 
+        throw std::invalid_argument("Dimension mismatch");
     }
     
     Matrix<T> sum(rows_, cols_);
@@ -134,15 +134,20 @@ Matrix<T> Matrix<T>::operator+(const Matrix& other){
 }
 
 template <typename T>
-Matrix<T> Matrix<T>::operator+=(const Matrix& other){
-    *this = *this + other;
+Matrix<T>& Matrix<T>::operator+=(const Matrix& other) {
+    if (rows_ != other.rows_ || cols_ != other.cols_) {
+        throw std::invalid_argument("Dimension mismatch");
+    }
+    for (size_t i = 0; i < data.size(); ++i) {
+        data[i] += other.data[i];
+    }
     return *this;
 }
 
 template <typename T>
 Matrix<T> Matrix<T>::operator-(const Matrix& other){
     if(rows_ != other.rows_ || cols_ != other.cols_){
-        throw std::runtime_error("Size does not match"); 
+        throw std::invalid_argument("Dimension mismatch");    
     }
     
     Matrix<T> diff(rows_, cols_);
@@ -155,15 +160,21 @@ Matrix<T> Matrix<T>::operator-(const Matrix& other){
 }
 
 template <typename T>
-Matrix<T> Matrix<T>::operator-=(const Matrix& other){
-    *this = *this - other;
+Matrix<T>& Matrix<T>::operator-=(const Matrix& other) {
+    if (rows_ != other.rows_ || cols_ != other.cols_) {
+        throw std::invalid_argument("Dimension mismatch");
+    }
+    for (size_t i = 0; i < data.size(); ++i) {
+        data[i] -= other.data[i];
+    }
     return *this;
 }
 
+//% is hadamard product
 template <typename T>
 Matrix<T> Matrix<T>::operator%(const Matrix& other){
     if(rows_ != other.rows_ || cols_ != other.cols_){
-        throw std::runtime_error("Size does not match"); 
+        throw std::invalid_argument("Dimension mismatch");
     }
     
     Matrix<T> product(rows_, cols_);
@@ -176,8 +187,13 @@ Matrix<T> Matrix<T>::operator%(const Matrix& other){
 }
 
 template <typename T>
-Matrix<T> Matrix<T>::operator%=(const Matrix& other){
-    *this = *this % other;
+Matrix<T>& Matrix<T>::operator%=(const Matrix& other) {
+    if (rows_ != other.rows_ || cols_ != other.cols_) {
+        throw std::invalid_argument("Dimension mismatch");
+    }
+    for (size_t i = 0; i < data.size(); ++i) {
+        data[i] *= other.data[i];
+    }
     return *this;
 }
 
@@ -212,7 +228,7 @@ Matrix<T>& Matrix<T>::transpose(){
 }
 
 template <typename T>
-T Matrix<T>::determinant(){
+T Matrix<T>::determinant() const {
     if (rows_ != cols_) {
         throw std::runtime_error("Undefined");
     }
@@ -236,13 +252,13 @@ T Matrix<T>::determinant(){
 }
 
 template <typename T>
-LU<T> Matrix<T>::lu(){
+LU<T> Matrix<T>::lu() const {
     if (rows_ != cols_) throw std::runtime_error("Undefined");
 
     LU<T> result;
     result.U = *this;
-    result.P = identity<T>(rows_, cols_);
-    result.L = identity<T>(rows_, cols_);
+    result.P = identity<T>(rows_);
+    result.L = identity<T>(rows_);
 
     const T epsilon = static_cast<T>(1e-9);
 
@@ -262,7 +278,7 @@ LU<T> Matrix<T>::lu(){
         //Swap rows/cols if pivot isn't on the current row
         if(i != maxId){
             result.U.swapRow(i, maxId);
-            result.P.swapCol(i, maxId);
+            result.P.swapRow(i, maxId);
 
             for (size_t col = 0; col < i; ++col) {
                 std::swap(result.L(i, col), result.L(maxId, col));
