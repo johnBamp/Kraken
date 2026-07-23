@@ -1,5 +1,9 @@
-#pragma once
 #include "core.hpp"
 #include "operators.hpp"
-#include "decompositions.hpp"
 #include "views.hpp"
+#include "decompositions.hpp"
+
+namespace kr {
+
+
+}

@@ -2,24 +2,16 @@
 #include <Kraken>
 
 int main() {
-    kr::Matrix<float> a(3, 3);
+    kr::Matrix<float> A(3, 3);
+    kr::Matrix<float> b(3, 1);
 
-    a = {1, 2, 3, 
-         4, 5, 6,
-         7, 8, 9};
+    A = {10, -7, 0, 
+         -3, 2, 6,
+          5, -1, 5};
 
-    std::cout << a << std::endl << std::endl;
+    b = {1, 2, 3};
 
-    auto lu = a.lu();
-
-    std::cout << std::endl << std::endl;
-
-    std::cout << lu.U << std::endl << std::endl;
-    std::cout << lu.L << std::endl << std::endl;
-
-    std::cout << lu.P << std::endl << std::endl;
-        
-    std::cout << (lu.P.transpose() * lu.L * lu.U) << std::endl << std::endl;
-
+    auto lu = A.lu();
+    
     return 0;
 }

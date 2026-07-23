@@ -51,6 +51,7 @@ public:
     Matrix operator+(const Matrix& other);
     Matrix& operator+=(const Matrix& other);
     Matrix operator-(const Matrix& other);
+    Matrix operator-(const T scalar);
     Matrix& operator-=(const Matrix& other);
     Matrix operator%(const Matrix& other);
     Matrix& operator%=(const Matrix& other);
@@ -70,6 +71,7 @@ public:
     Matrix<T>& transpose();
     T determinant() const;
     LU<T> lu() const;
+    
 };
 
 template <typename T>

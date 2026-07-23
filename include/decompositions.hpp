@@ -3,6 +3,7 @@
 #include "core.hpp"
 #include "operators.hpp"
 #include "views.hpp"
+#include "solvers.hpp"
 
 namespace kr {
 

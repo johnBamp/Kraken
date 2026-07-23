@@ -66,6 +66,18 @@ Matrix<T> Matrix<T>::operator-(const Matrix& other){
 }
 
 template <typename T>
+Matrix<T> Matrix<T>::operator-(const T scalar){
+    Matrix<T> diff(rows_, cols_);
+
+    for(size_t i = 0; i < data.size(); i++){
+        diff.data[i] = data[i] - scalar;
+    }
+
+    return diff;
+}
+
+
+template <typename T>
 Matrix<T>& Matrix<T>::operator-=(const Matrix& other) {
     if (rows_ != other.rows_ || cols_ != other.cols_) {
         throw std::invalid_argument("Dimension mismatch");

@@ -2,6 +2,7 @@
 
 #include "core.hpp"
 #include "operators.hpp"
+#include "algorithm"
 
 namespace kr {
 
@@ -36,3 +37,4 @@ Matrix<T>& Matrix<T>::transpose(){
 }
 
 }
+
