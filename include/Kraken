@@ -1,2 +1,4 @@
 #pragma once
-#include "matrix.hpp"
+#include "core.hpp"
+#include "operators.hpp"
+#include "decompositions.hpp"
