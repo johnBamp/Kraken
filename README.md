@@ -1,0 +1,1 @@
+A small C++ Linear Algebra library I'm making to learn Linear Algebra.

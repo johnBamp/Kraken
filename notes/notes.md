@@ -1,0 +1,2 @@
+July 23:
+-Was going to try and do multiple backends, so i could later add GPU support, but for now, it seems too ambitious and I'm not at the point where I know how to do that yet. Don't want to put any more time off in working on this library. 

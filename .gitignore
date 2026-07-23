@@ -1,0 +1,28 @@
+# Compiled binaries, libraries, and objects
+*.o
+*.obj
+*.so
+*.dylib
+*.dll
+*.a
+*.lib
+
+# Build system files
+build/
+build-*/
+CMakeFiles/
+CMakeCache.txt
+Makefile
+*.cmake
+
+# IDE/Editor configs (VS Code, CLion, Visual Studio)
+.vscode/
+.idea/
+.vs/
+*.sln
+*.suo
+*.user
+
+# System files
+.DS_Store
+s
