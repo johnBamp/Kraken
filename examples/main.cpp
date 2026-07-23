@@ -19,10 +19,9 @@ int main() {
     std::cout << lu.L << std::endl << std::endl;
 
     std::cout << lu.P << std::endl << std::endl;
-    
-    std::cout << lu.P.Transpose() << std::endl << std::endl;
-    
-    std::cout << (lu.P.Transpose() * lu.L * lu.U) << std::endl << std::endl;
+        
+    std::cout << (lu.P * lu.L * lu.U) << std::endl << std::endl;
+
 
     return 0;
 }
